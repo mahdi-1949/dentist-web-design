@@ -8,7 +8,7 @@ function menu(open){nav?.classList.toggle('mobile-open',open);mobile?.setAttribu
 trigger?.addEventListener('click',()=>services(!panel.classList.contains('is-open')));
 mobile?.addEventListener('click',()=>menu(!nav.classList.contains('mobile-open')));
 backdrop?.addEventListener('click',()=>{services(false);menu(false)});
-document.addEventListener('click',e=>{if(header&&!header.contains(e.target)){services(false);menu(false)}});
+document.addEventListener('click',e=>{if(header&&!e.composedPath().includes(header)){services(false);menu(false)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(panel?.classList.contains('is-open')||nav?.classList.contains('mobile-open'))){const isMobile=nav.classList.contains('mobile-open');services(false);menu(false);(isMobile?mobile:trigger).focus()}});
 header?.addEventListener('focusout',()=>setTimeout(()=>{if(!header.contains(document.activeElement)){services(false);menu(false)}},0));
 const desktop=matchMedia('(min-width:951px)');desktop.addEventListener('change',()=>{menu(false);services(false)});
