@@ -11,7 +11,7 @@ backdrop?.addEventListener('click',()=>{services(false);menu(false)});
 document.addEventListener('click',e=>{if(header&&!e.composedPath().includes(header)){services(false);menu(false)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(panel?.classList.contains('is-open')||nav?.classList.contains('mobile-open'))){const isMobile=nav.classList.contains('mobile-open');services(false);menu(false);(isMobile?mobile:trigger).focus()}});
 header?.addEventListener('focusout',()=>setTimeout(()=>{if(!header.contains(document.activeElement)){services(false);menu(false)}},0));
-const desktop=matchMedia('(min-width:951px)');desktop.addEventListener('change',()=>{menu(false);services(false)});
+const desktop=matchMedia('(min-width:1101px)');desktop.addEventListener('change',()=>{menu(false);services(false)});
 window.addEventListener('scroll',()=>header?.classList.toggle('is-scrolled',scrollY>15),{passive:true});
 // Keep the mobile navigation compact when following an in-page link.
 $$('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{menu(false);services(false)}));
@@ -48,3 +48,7 @@ $('#bookingRestart').addEventListener('click',()=>{$('#bookingSuccess').hidden=t
 $('#contactMessageForm')?.addEventListener('submit',e=>{e.preventDefault();$('#contactStatus').textContent='فرم بررسی شد؛ این نسخه نمایشی است و پیامی ارسال یا ذخیره نشده است.'});
 // Progressive enhancement: content stays visible without JavaScript.
 if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('motion-visible');observer.unobserve(e.target)}}),{threshold:.06});$$('main>.section,main>.home-new>.section').forEach(x=>{x.classList.add('motion-ready');observer.observe(x)})}
+
+
+const serviceFilters=$$('[data-service-filter]');
+serviceFilters.forEach(button=>button.addEventListener('click',()=>{let count=0;const filter=button.dataset.serviceFilter;serviceFilters.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));$$('[data-service-group]').forEach(card=>{card.hidden=filter!=='all'&&card.dataset.serviceGroup!==filter;if(!card.hidden)count++});const digits='۰۱۲۳۴۵۶۷۸۹';$('#serviceCount').textContent=String(count).replace(/[0-9]/g,d=>digits[d])+' حوزهٔ خدمات';}));
